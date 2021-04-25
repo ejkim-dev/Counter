@@ -1,7 +1,6 @@
 package com.example.counter
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -18,7 +17,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         // 액티비티는 화면을 회전할 때마다 초기화가 된다. -> 문제 해결을 위해 viewmodel을 사용해야 함
-        Log.d(TAG, "onCreate: ")
 
 //        val text = findViewById<TextView>(R.id.counter_text)
 
@@ -44,6 +42,7 @@ class MainActivity : AppCompatActivity() {
      * 그러면 안드로이드 시스템이 가지고 있다가 복원될 때
      * onRestoreInstanceState() 이쪽이나 savedInstanceState
      * 둘 중 하나로 복원을 시켜준다(선택사항)*/
+/*
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         // 1. 여기서 저장하고 -> 중요한 데이터를 저장할 수 있음
@@ -55,8 +54,6 @@ class MainActivity : AppCompatActivity() {
         // 2. 여기서 복원함
 //        viewModel.count = savedInstanceState.getInt("count")
     }
+*/
 
-    companion object {
-        val TAG = MainActivity::class.java.simpleName
-    }
 }
