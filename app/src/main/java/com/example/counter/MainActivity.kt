@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,16 +22,23 @@ class MainActivity : AppCompatActivity() {
 
         val text = findViewById<TextView>(R.id.counter_text)
 
-        text.text = "${ viewModel.count }"
+        viewModel.apply {
+            // count를 관찰해서 UI에 적용시킴 -> ui 갱신은 여기서 다 해결됨
+            countLiveData.observe(
+                    this@MainActivity, Observer { count ->
+                text.text = "$count"
+            }
+            )
 
-        findViewById<Button>(R.id.add_button).setOnClickListener {
-            viewModel.count++
-            text.text = "${viewModel.count}"
+
+            findViewById<Button>(R.id.add_button).setOnClickListener {
+                increaseCount()
+            }
+            findViewById<Button>(R.id.sub_button).setOnClickListener {
+                decreaseCount()
+            }
         }
-        findViewById<Button>(R.id.sub_button).setOnClickListener {
-            viewModel.count--
-            text.text = "${viewModel.count}"
-        }
+
 
         // 안드로이드 Q 부터 가능한 콜백함수
         // kotlin에서는 object라는 키워드로 익명클래스를 구현하는데, 자바에서 new와 비슷한 역할을 함
@@ -75,13 +83,13 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         // 1. 여기서 저장하고 -> 중요한 데이터를 저장할 수 있음
-        outState.putInt("count", viewModel.count)
+//        outState.putInt("count", viewModel.count)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         // 2. 여기서 복원함
-        viewModel.count = savedInstanceState.getInt("count")
+//        viewModel.count = savedInstanceState.getInt("count")
     }
 
     companion object {
